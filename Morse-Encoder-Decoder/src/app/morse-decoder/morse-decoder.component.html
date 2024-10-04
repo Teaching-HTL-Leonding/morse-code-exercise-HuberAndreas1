@@ -1,0 +1,15 @@
+<app-navbar />
+<div class="app-container">
+  <div class="alert alert-danger" role="alert" [hidden]="validInput()">
+    Invalid Morse Input!
+  </div>
+  <div class="mb-3">
+    <label for="formGroupExampleInput" class="form-label" >Your Morse Input</label>
+    <input type="text" class="form-control" id="formGroupExampleInput" [(ngModel)]="morseInput">
+  </div>
+  <button class="btn btn-primary" (click)="decodedText.set(this.decodeService.decode(morseInput()))" [disabled]="!validInput()">Decode</button>
+  <div class="mb-3">
+    <label for="formGroupExampleInput2" class="form-label">Text</label>
+    <input readonly type="text" class="form-control" id="formGroupExampleInput2" [ngModel]="decodedText()">
+  </div>
+</div>
