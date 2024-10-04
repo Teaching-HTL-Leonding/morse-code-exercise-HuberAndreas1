@@ -1,0 +1,16 @@
+<app-navbar />
+<div class="app-container">
+  <div class="alert alert-danger" role="alert" [hidden]="letterValidation.test(inputText())">
+    Only Upper Case Letters and Blanks allowed!
+  </div>
+  <div class="mb-3">
+    <label for="formGroupExampleInput" class="form-label" >Your input</label>
+    <input type="text" class="form-control" id="formGroupExampleInput" [(ngModel)]="inputText">
+  </div>
+  <button class="btn btn-primary" (click)="encodeService.encode(inputText, filterSpaces, encodedText)" [disabled]="!letterValidation.test(inputText())">Encode</button>
+  <div class="mb-3">
+    <label for="formGroupExampleInput2" class="form-label">Morse Code</label>
+    <input readonly type="text" class="form-control" id="formGroupExampleInput2" [ngModel]="encodedText()">
+  </div>
+  <button class="btn btn-primary" (click)="playMorseCode()" [disabled]="!letterValidation.test(inputText())">Play sound</button>
+</div>
