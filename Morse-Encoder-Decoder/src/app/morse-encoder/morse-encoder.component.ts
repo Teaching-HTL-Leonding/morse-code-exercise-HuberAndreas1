@@ -26,6 +26,6 @@ export class MorseEncoderComponent {
 
   constructor(readonly encodeService: EncodeService, readonly playerService: PlayerService) {
   }
-  
+
   protected readonly String = String;
 }
