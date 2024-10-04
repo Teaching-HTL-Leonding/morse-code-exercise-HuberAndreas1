@@ -1,4 +1,4 @@
-import {Component, signal, WritableSignal} from '@angular/core';
+import {Component, computed, signal} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {NgOptimizedImage} from "@angular/common";
 import {NavbarComponent} from "../navbar/navbar.component";
@@ -19,30 +19,13 @@ import {PlayerService} from "../player.service";
 export class MorseEncoderComponent {
   inputText = signal('');
   encodedText = signal('');
-  letterValidation = /^[A-Z\s]+$/;
-  filterSpaces = /\s+/g;
+  letterValidation = /^[A-Z]+(?: [A-Z]+)*$/;
+  validateInput = computed(() => {
+    return this.letterValidation.test(this.inputText());
+  })
 
-  constructor(readonly encodeService: EncodeService, private readonly playerService: PlayerService) {
+  constructor(readonly encodeService: EncodeService, readonly playerService: PlayerService) {
   }
-
-  async playMorseCode(){
-    if (this.playerService.note_context.state === 'suspended') {
-      await this.playerService.note_context.resume();
-    }
-    for (const word of this.encodedText().split(" / ")) {
-      for (const letter of word.split(" ")) {
-        for (const symbol of letter.split("")) {
-          if(symbol === "."){
-            await this.playerService.playDot();
-          } else if(symbol === "-"){
-            await this.playerService.playDash();
-          }
-          await this.playerService.sleep(this.playerService.SYMBOL_BREAK);
-        }
-        await this.playerService.sleep(this.playerService.LETTER_BREAK);
-      }
-      await this.playerService.sleep(this.playerService.WORD_BREAK);
-    }
-  }
+  
   protected readonly String = String;
 }

@@ -18,15 +18,10 @@ import {MorseCodeService} from "../morse-code.service";
 export class MorseDecoderComponent {
   morseInput = signal('');
   decodedText = signal('');
-  morseRegex = /^([.-]+( [.-]+)*)( \/ [.-]+( [.-]+)*)*$/;
-
-  constructor(readonly decodeService: DecodeService, private readonly morseCodeService: MorseCodeService) {
+  morseRegex = /^[.\- ]+(?: \/ [.\- ]+)*$/;
+  constructor(readonly decodeService: DecodeService) {
   }
   validInput = computed(() => {
-    return this.morseRegex.test(this.morseInput())
-      && this.morseInput()
-        .split(' ')
-        .every(e => (this.morseCodeService.getMorseCode().includes(e) || e === '/'))
+      return this.morseRegex.test(this.morseInput());
     });
-
 }

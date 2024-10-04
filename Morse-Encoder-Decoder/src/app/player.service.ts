@@ -61,4 +61,24 @@ export class PlayerService {
     this.stopNotePlaying();
   }
 
+  async playMorseCode(encodedText: string) {
+    if (this.note_context.state === 'suspended') {
+      await this.note_context.resume();
+    }
+    for (const word of encodedText.split(" / ")) {
+      for (const letter of word.split(" ")) {
+        for (const symbol of letter.split("")) {
+          if(symbol === "."){
+            await this.playDot();
+          } else if(symbol === "-"){
+            await this.playDash();
+          }
+          await this.sleep(this.SYMBOL_BREAK);
+        }
+        await this.sleep(this.LETTER_BREAK);
+      }
+      await this.sleep(this.WORD_BREAK);
+    }
+  }
+
 }
